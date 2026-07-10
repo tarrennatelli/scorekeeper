@@ -1,0 +1,250 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Score_Keeper.MainPage"
+             Shell.NavBarIsVisible="False">
+    <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <VerticalStackLayout>
+            <VerticalStackLayout x:Name="firstTime" IsVisible="False">
+                <Image Source="cup.png" Aspect="AspectFit" HeightRequest="200" Margin="0,50,0,0"/>
+                <Label Text="Score Keeper" HorizontalOptions="Center" FontSize="40" Margin="0,30,0,0"/>
+                <Label Text="No tracking, no ads, no hassle" FontSize="15" Margin="0,20,0,0" HorizontalOptions="Center"/>
+                <Label Text="A lightweight, battery saving app designed for you" FontSize="15" Margin="0,5,0,0" HorizontalOptions="Center"/>
+                <HorizontalStackLayout Margin="0,50,0,0" HorizontalOptions="Center">
+                    <VerticalStackLayout HorizontalOptions="Start">
+                        <Label Text="Use more rows" FontSize="22"/>
+                        <Label Text="May result in full scoresheet not fitting your display" FontSize="12"/>
+                    </VerticalStackLayout>
+                    <Switch HorizontalOptions="End" x:Name="optionToggle"/>
+                </HorizontalStackLayout>
+                <Button Margin="20" Text="Confirm" Clicked="confirmClicked"/>
+            </VerticalStackLayout>
+            <Grid Padding="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" x:Name="mainGrid" IsVisible="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.Column="0" IsVisible="True" x:Name="standardTitle">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Score Keeper" FontSize="25" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="titleTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Button Text="Settings" Grid.Column="1" VerticalOptions="Center" x:Name="Settings" HorizontalOptions="End" Clicked="Settings_Clicked"/>
+                </Grid>
+                <Grid Grid.Row="0" Grid.Column="0" IsVisible="False" x:Name="extendedTitle">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Score Keeper" FontSize="25" Grid.Column="0" VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="titleTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Button Text="Add/Remove Players" Grid.Column="1" VerticalOptions="Center" x:Name="addRemoveButton" Clicked="addRemovePlayers_Clicked"/>
+                </Grid>
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0" Padding="0,10" x:Name="entryGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Text="-" Grid.Row="0" Grid.Column="0" HeightRequest="30" FontSize="17" Padding="0" CornerRadius="30" WidthRequest="60" BackgroundColor="#5c479b" IsEnabled="False" x:Name="buttonOne" Clicked="addPlayerOne"/>
+                    <Button Text="-" Grid.Row="0" Grid.Column="1" HeightRequest="30" FontSize="17" Padding="0" CornerRadius="30" WidthRequest="60" BackgroundColor="#5c479b" x:Name="buttonTwo" IsEnabled="False" Clicked="addPlayerTwo"/>
+                    <Button Text="+" Grid.Row="0" Grid.Column="2" HeightRequest="30" FontSize="17" Padding="0" CornerRadius="30" WidthRequest="60" BackgroundColor="#5c479b" IsVisible="True" x:Name="buttonThree" Clicked="addPlayerThree"/>
+                    <Button Text="+" Grid.Row="0" Grid.Column="3" HeightRequest="30" FontSize="17" Padding="0" CornerRadius="30" WidthRequest="60" BackgroundColor="#5c479b" IsVisible="False" x:Name="buttonFour" Clicked="addPlayerFour"/>
+                    <Button Text="+" Grid.Row="0" Grid.Column="4" HeightRequest="30" FontSize="17" Padding="0" CornerRadius="30" WidthRequest="60" BackgroundColor="#5c479b" IsVisible="False" x:Name="buttonFive" Clicked="addPlayerFive"/>
+
+                    <Entry Placeholder="Player 1" Grid.Row="1" Grid.Column="0" HorizontalTextAlignment="Center" x:Name="playerOne"/>
+                    <Entry Placeholder="Player 2" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center" x:Name="playerTwo"/>
+                    <Entry Placeholder="Player 3" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="Center" x:Name="playerThree"/>
+                    <Entry Placeholder="Player 4" Grid.Row="1" Grid.Column="3" HorizontalTextAlignment="Center" x:Name="playerFour"/>
+                    <Entry Placeholder="Player 5" Grid.Row="1" Grid.Column="4" HorizontalTextAlignment="Center" x:Name="playerFive"/>
+
+                    <Entry Grid.Row="2" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryOneOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="2" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryOneTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="2" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryOneThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="2" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryOneFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="2" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryOneFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="3" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="3" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="3" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="3" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="3" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="4" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryThreeOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="4" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryThreeTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="4" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryThreeThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="4" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryThreeFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="4" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryThreeFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="5" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFourOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="5" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFourTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="5" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFourThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="5" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFourFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="5" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFourFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="6" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFiveOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="6" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFiveTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="6" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFiveThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="6" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFiveFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="6" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFiveFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="7" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entrySixOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="7" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entrySixTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="7" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entrySixThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="7" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entrySixFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="7" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entrySixFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="8" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entrySevenOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="8" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entrySevenTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="8" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entrySevenThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="8" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entrySevenFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="8" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entrySevenFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="9" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryEightOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="9" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryEightTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="9" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryEightThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="9" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryEightFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="9" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryEightFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="10" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryNineOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="10" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryNineTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="10" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryNineThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="10" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryNineFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="10" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryNineFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="11" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTenOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="11" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTenTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="11" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTenThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="11" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTenFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="11" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTenFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="12" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryElevenOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="12" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryElevenTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="12" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryElevenThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="12" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryElevenFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="12" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryElevenFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="13" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwelveOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="13" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwelveTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="13" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwelveThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="13" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwelveFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="13" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwelveFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="14" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryThirteenOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="14" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryThirteenTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="14" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryThirteenThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="14" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryThirteenFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="14" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryThirteenFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="15" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFourteenOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="15" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFourteenTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="15" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFourteenThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="15" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFourteenFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="15" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFourteenFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="16" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFifteenOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="16" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFifteenTwo" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="16" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFifteenThree" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="16" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFifteenFour" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="16" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryFifteenFive" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+
+
+                    <Label Grid.Row="17" Grid.Column="0" Text="0" HorizontalOptions="End" Padding="4,0" FontAttributes="Bold" x:Name="playerOneScore"/>
+                    <Label Grid.Row="17" Grid.Column="1" Text="0" HorizontalOptions="End" Padding="4,0" FontAttributes="Bold" x:Name="playerTwoScore"/>
+                    <Label Grid.Row="17" Grid.Column="2" Text="0" HorizontalOptions="End" Padding="4,0" FontAttributes="Bold" x:Name="playerThreeScore"/>
+                    <Label Grid.Row="17" Grid.Column="3" Text="0" HorizontalOptions="End" Padding="4,0" FontAttributes="Bold" x:Name="playerFourScore"/>
+                    <Label Grid.Row="17" Grid.Column="4" Text="0" HorizontalOptions="End" Padding="4,0" FontAttributes="Bold" x:Name="playerFiveScore"/>
+
+                </Grid>
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="2" Grid.Column="0" Padding="0,10" x:Name="secondaryEntryGrid" IsVisible="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Text="-" Grid.Row="0" Grid.Column="0" HeightRequest="30" FontSize="17" Padding="0" CornerRadius="30" WidthRequest="60" BackgroundColor="#5c479b" IsEnabled="True" x:Name="buttonSix" Clicked="addPlayerSix"/>
+                    <Button Text="+" Grid.Row="0" Grid.Column="1" HeightRequest="30" FontSize="17" Padding="0" CornerRadius="30" WidthRequest="60" BackgroundColor="#5c479b" x:Name="buttonSeven" IsEnabled="True" Clicked="addPlayerSeven"/>
+                    <Button Text="+" Grid.Row="0" Grid.Column="2" HeightRequest="30" FontSize="17" Padding="0" CornerRadius="30" WidthRequest="60" BackgroundColor="#5c479b" IsVisible="False" x:Name="buttonEight" Clicked="addPlayerEight"/>
+                    <Button Text="+" Grid.Row="0" Grid.Column="3" HeightRequest="30" FontSize="17" Padding="0" CornerRadius="30" WidthRequest="60" BackgroundColor="#5c479b" IsVisible="False" x:Name="buttonNine" Clicked="addPlayerNine"/>
+                    <Button Text="+" Grid.Row="0" Grid.Column="4" HeightRequest="30" FontSize="17" Padding="0" CornerRadius="30" WidthRequest="60" BackgroundColor="#5c479b" IsVisible="False" x:Name="buttonTen" Clicked="addPlayerTen"/>
+
+                    <Entry Placeholder="Player 6" Grid.Row="1" Grid.Column="0" HorizontalTextAlignment="Center" x:Name="playerSix"/>
+                    <Entry Placeholder="Player 7" Grid.Row="1" Grid.Column="1" HorizontalTextAlignment="Center" x:Name="playerSeven" IsVisible="False"/>
+                    <Entry Placeholder="Player 8" Grid.Row="1" Grid.Column="2" HorizontalTextAlignment="Center" x:Name="playerEight" IsVisible="False"/>
+                    <Entry Placeholder="Player 9" Grid.Row="1" Grid.Column="3" HorizontalTextAlignment="Center" x:Name="playerNine" IsVisible="False"/>
+                    <Entry Placeholder="Player 10" Grid.Row="1" Grid.Column="4" HorizontalTextAlignment="Center" x:Name="playerTen" IsVisible="False"/>
+
+                    <Entry Grid.Row="2" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoOneOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="2" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoOneTwo" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="2" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoOneThree" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="2" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoOneFour" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="2" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoOneFive" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="3" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoTwoOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="3" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoTwoTwo" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="3" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoTwoThree" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="3" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoTwoFour" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="3" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoTwoFive" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="4" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoThreeOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="4" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoThreeTwo" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="4" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoThreeThree" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="4" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoThreeFour" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="4" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoThreeFive" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="5" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFourOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="5" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFourTwo" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="5" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFourThree" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="5" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFourFour" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="5" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFourFive" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="6" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFiveOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="6" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFiveTwo" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="6" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFiveThree" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="6" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFiveFour" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="6" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoFiveFive" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="7" Grid.Column="0" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoSixOne" TextChanged="addValues" Completed="OnCheckmarkClicked"/>
+                    <Entry Grid.Row="7" Grid.Column="1" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoSixTwo" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="7" Grid.Column="2" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoSixThree" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="7" Grid.Column="3" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoSixFour" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+                    <Entry Grid.Row="7" Grid.Column="4" Keyboard="Numeric" HorizontalTextAlignment="End" x:Name="entryTwoSixFive" TextChanged="addValues" Completed="OnCheckmarkClicked" IsVisible="False"/>
+
+                    <Label Grid.Row="9" Grid.Column="0" Text="0" HorizontalOptions="End" Padding="4,0" FontAttributes="Bold" x:Name="playerSixScore"/>
+                    <Label Grid.Row="9" Grid.Column="1" Text="0" HorizontalOptions="End" Padding="4,0" FontAttributes="Bold" x:Name="playerSevenScore" IsVisible="False"/>
+                    <Label Grid.Row="9" Grid.Column="2" Text="0" HorizontalOptions="End" Padding="4,0" FontAttributes="Bold" x:Name="playerEightScore" IsVisible="False"/>
+                    <Label Grid.Row="9" Grid.Column="3" Text="0" HorizontalOptions="End" Padding="4,0" FontAttributes="Bold" x:Name="playerNineScore" IsVisible="False"/>
+                    <Label Grid.Row="9" Grid.Column="4" Text="0" HorizontalOptions="End" Padding="4,0" FontAttributes="Bold" x:Name="playerTenScore" IsVisible="False"/>
+                </Grid>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+
