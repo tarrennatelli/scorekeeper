@@ -15,18 +15,16 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 9.0.x # Updated to .NET 9
 
     - name: Install MAUI Workloads
       run: dotnet workload install maui
 
-    # === UPDATE THIS STEP TO TARGET ANDROID ===
     - name: Restore Dependencies
-      run: dotnet restore -p:TargetFramework=net8.0-android
+      run: dotnet restore -p:TargetFramework=net9.0-android # Updated to net9.0
 
-    # === UPDATE THIS STEP AS WELL ===
     - name: Publish Android App
-      run: dotnet publish -c Release -f net8.0-android -p:TargetFramework=net8.0-android /p:AndroidPackageFormat=apk
+      run: dotnet publish -c Release -f net9.0-android -p:TargetFramework=net9.0-android /p:AndroidPackageFormat=apk # Updated to net9.0
 
     - name: Upload APK Installer
       uses: actions/upload-artifact@v4
