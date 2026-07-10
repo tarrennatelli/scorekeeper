@@ -2,7 +2,7 @@ name: Build and Release MAUI App
 
 on:
   push:
-    branches: [ "master" ] # Runs every time you push code to the main branch
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -15,17 +15,14 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x # Matches your MAUI version
+        dotnet-version: 8.0.x
 
     - name: Install MAUI Workloads
       run: dotnet workload install maui
 
-    - name: Publish Android App
-      run: dotnet publish -c Release -f net8.0-android --no-restore /p:AndroidPackageFormat=apk
+    # === ADD THIS NEW STEP HERE ===
+    - name: Restore Dependencies
+      run: dotnet restore
 
-    - name: Upload APK Installer
-      uses: actions/upload-artifact@v4
-      with:
-        name: ScoreKeeper-Installer
-        path: |
-          **/*.apk
+    - name: Publish Android App
+      run: dotnet publish -c Release -f net8.0-android /p:AndroidPackageFormat=apk
