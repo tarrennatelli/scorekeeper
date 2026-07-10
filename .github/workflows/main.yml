@@ -2,7 +2,7 @@ name: Build and Release MAUI App
 
 on:
   push:
-    branches: [ "main" ] # Runs every time you push code to the main branch
+    branches: [ "master" ] # Runs every time you push code to the main branch
 
 jobs:
   build:
