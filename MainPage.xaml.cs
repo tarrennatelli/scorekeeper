@@ -2,10 +2,13 @@
 {
     public partial class MainPage : ContentPage
     {
-
+        private const string CurrentVersion = "1.0";
+        private const string VersionUrl = "https://raw.githubusercontent.com/tarrennatelli/scorekeeper/master/version.txt";
+        private const string DownloadUrl = "https://github.com/tarrennatelli/scorekeeper/actions";
         public MainPage()
         {
             InitializeComponent();
+            Dispatcher.Dispatch(async () => await CheckForUpdatesAsync());
             playerThree.IsVisible = false;
             playerThreeScore.IsVisible = false;
             entryOneThree.IsVisible = false;
@@ -109,6 +112,36 @@
                 File.WriteAllText(Path.Combine(FileSystem.AppDataDirectory, "firstTime.txt"), "false");
             }
 
+        }
+        private async Task CheckForUpdatesAsync()
+        {
+            try
+            {
+                using HttpClient client = new HttpClient();
+                // Fetch the text from your GitHub version.txt file
+                string latestVersion = (await client.GetStringAsync(VersionUrl)).Trim();
+
+                // 2. If the cloud version doesn't match your local version, trigger the alert
+                if (latestVersion != CurrentVersion)
+                {
+                    bool downloadNow = await DisplayAlert(
+                        "Update Available!",
+                        $"A newer version ({latestVersion}) of Score Keeper is available. Would you like to update now?",
+                        "Update",
+                        "Later"
+                    );
+
+                    // 3. If they tap "Update", launch the browser automatically
+                    if (downloadNow)
+                    {
+                        await Launcher.Default.OpenAsync(new Uri(DownloadUrl));
+                    }
+                }
+            }
+            catch
+            {
+                // Fails silently if they don't have an internet connection
+            }
         }
 
         private void confirmClicked(object sender, EventArgs e)
