@@ -12,7 +12,7 @@
                 <HorizontalStackLayout Margin="0,50,0,0" HorizontalOptions="Center">
                     <VerticalStackLayout HorizontalOptions="Start">
                         <Label Text="Use more rows" FontSize="22"/>
-                        <Label Text="May result in full scoresheet not fitting your display" FontSize="12"/>
+                        <Label Text="May result in app not fitting your display (still usable but you will have to scroll)." FontSize="12"/>
                     </VerticalStackLayout>
                     <Switch HorizontalOptions="End" x:Name="optionToggle"/>
                 </HorizontalStackLayout>
