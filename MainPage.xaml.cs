@@ -8,7 +8,7 @@ namespace Score_Keeper
 {
     public partial class MainPage : ContentPage
     {
-        private const string CurrentVersion = "1.5";
+        private const string CurrentVersion = "1.6";
         private const string VersionUrl = "https://raw.githubusercontent.com/tarrennatelli/scorekeeper/master/version.txt";
         private const string DownloadUrl = "https://github.com/tarrennatelli/scorekeeper/";
 
