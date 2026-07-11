@@ -1,10 +1,66 @@
-﻿namespace Score_Keeper
+﻿#if ANDROID
+using Android.Content;
+using Android.OS;
+using Microsoft.Maui.ApplicationModel;
+#endif
+
+namespace Score_Keeper
 {
     public partial class MainPage : ContentPage
     {
-        private const string CurrentVersion = "1.2";
+        private const string CurrentVersion = "1.3";
         private const string VersionUrl = "https://raw.githubusercontent.com/tarrennatelli/scorekeeper/master/version.txt";
         private const string DownloadUrl = "https://github.com/tarrennatelli/scorekeeper/";
+
+        private async Task DownloadAndInstallApkAsync(string apkUrl)
+        {
+            try
+            {
+                // 1. Download the APK file securely to local cache storage
+                HttpClient client = new HttpClient();
+                byte[] apkBytes = await client.GetByteArrayAsync(apkUrl);
+
+                string fileName = "ScoreKeeperUpdate.apk";
+
+                // Use CacheDirectory so it doesn't require external storage permissions
+                string localPath = Path.Combine(FileSystem.CacheDirectory, fileName);
+                await File.WriteAllBytesAsync(localPath, apkBytes);
+
+                // 2. Trigger the Android System Installer
+             #if ANDROID
+             Context context = Platform.CurrentActivity;
+             Java.IO.File apkFile = new Java.IO.File(localPath);
+
+             Intent intent = new Intent(Intent.ActionView);
+        
+             // Android 7.0 (API 24) and above requires a FileProvider URI instead of a raw file path
+             if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
+             {
+                  Android.Net.Uri apkUri = Microsoft.Maui.Storage.FileProvider.GetUriForFile(
+                   context, 
+                   $"{context.PackageName}.fileprovider", 
+                   apkFile
+                   );
+            
+                  intent.SetDataAndType(apkUri, "application/vnd.android.package-archive");
+                  intent.AddFlags(ActivityFlags.GrantReadUriPermission);
+            }
+            else
+            {
+            // Fallback for ancient Android versions
+            intent.SetDataAndType(Android.Net.Uri.FromFile(apkFile), "application/vnd.android.package-archive");
+            }
+
+            intent.AddFlags(ActivityFlags.NewTask);
+            context.StartActivity(intent);
+            #endif
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Update Failed", $"Could not install update: {ex.Message}", "OK");
+            }
+        }
+
         public MainPage()
         {
             InitializeComponent();
@@ -113,6 +169,12 @@
             }
 
         }
+        private async void OnUpdateClicked(object sender, EventArgs e)
+        {
+            string directApkUrl = "https://github.com/tarrennatelli/scorekeeper/releases/latest/download/ScoreKeeper-Final.apk";
+            await DownloadAndInstallApkAsync(directApkUrl);
+        }
+
         private async Task CheckForUpdatesAsync()
         {
             try
@@ -134,7 +196,7 @@
                     // 3. If they tap "Update", launch the browser automatically
                     if (downloadNow)
                     {
-                        await Launcher.Default.OpenAsync(new Uri(DownloadUrl));
+                        await CheckForUpdatesAsync();
                     }
                 }
             }
