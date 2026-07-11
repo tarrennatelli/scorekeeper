@@ -30,13 +30,18 @@ jobs:
 
     - name: Sign Android APK
       run: |
-        echo "Searching for keystore and signing the release APK..."
+        echo "Searching for keystore, tools, and signing the release APK..."
         # Finds the keystore anywhere in the workspace dynamically
         $keystorePath = Get-ChildItem -Path . -Filter "scorekeeper.keystore" -Recurse | Select-Object -First 1 -ExpandProperty FullName
+        
         # Finds the compiled unsigned APK dynamically
         $apkPath = Get-ChildItem -Path . -Filter "*-Signed.apk" -Recurse | Where-Object { $_.FullName -notmatch "ScoreKeeper-Final.apk" } | Select-Object -First 1 -ExpandProperty FullName
         
-        & "${{ env.ANDROID_HOME }}\build-tools\34.0.0\apksigner.bat" sign --ks "$keystorePath" --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} --out ScoreKeeper-Final.apk "$apkPath"
+        # Safely resolves the apksigner path from the android home directory
+        $apksignerPath = Get-ChildItem -Path "$env:ANDROID_HOME" -Filter "apksigner.bat" -Recurse | Select-Object -First 1 -ExpandProperty FullName
+        
+        # Execute the signing command
+        & "$apksignerPath" sign --ks "$keystorePath" --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} --out ScoreKeeper-Final.apk "$apkPath"
 
     - name: Create Automated Release
       uses: softprops/action-gh-release@v2
