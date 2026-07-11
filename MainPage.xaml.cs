@@ -169,11 +169,6 @@ namespace Score_Keeper
             }
 
         }
-        private async void OnUpdateClicked(object sender, EventArgs e)
-        {
-            string directApkUrl = "https://github.com/tarrennatelli/scorekeeper/releases/latest/download/ScoreKeeper-Final.apk";
-            await DownloadAndInstallApkAsync(directApkUrl);
-        }
 
         private async Task CheckForUpdatesAsync()
         {
@@ -196,7 +191,8 @@ namespace Score_Keeper
                     // 3. If they tap "Update", launch the browser automatically
                     if (downloadNow)
                     {
-                        await CheckForUpdatesAsync();
+                        string directApkUrl = "https://github.com/tarrennatelli/scorekeeper/releases/latest/download/ScoreKeeper-Final.apk";
+                        await DownloadAndInstallApkAsync(directApkUrl);
                     }
                 }
             }
