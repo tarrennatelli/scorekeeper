@@ -2,11 +2,13 @@ name: Build and Release MAUI App
 
 on:
   push:
-    branches: [ "master" ] # Runs every time you push code to the main branch
+    branches: [ "master" ]
 
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write # Crucial: Gives GitHub permission to create a Release
 
     steps:
     - name: Checkout Code
@@ -15,17 +17,29 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x # Matches your MAUI version
+        dotnet-version: 9.0.x
 
     - name: Install MAUI Workloads
       run: dotnet workload install maui
 
-    - name: Publish Android App
-      run: dotnet publish -c Release -f net8.0-android --no-restore /p:AndroidPackageFormat=apk
+    - name: Restore Dependencies
+      run: dotnet restore -p:TargetFramework=net9.0-android
 
-    - name: Upload APK Installer
-      uses: actions/upload-artifact@v4
+    - name: Publish Android App
+      run: dotnet publish -c Release -f net9.0-android -p:TargetFramework=net9.0-android -r android-arm64 /p:AndroidPackageFormat=apk
+
+    - name: Rename APK for Clarity
+      run: |
+        ren src\bin\Release\net9.0-android\*-Signed.apk ScoreKeeper.apk
+      continue-on-error: true
+
+    - name: Create Automated Release
+      uses: softprops/action-gh-release@v2
       with:
-        name: ScoreKeeper-Installer
-        path: |
-          **/*.apk
+        tag_name: v${{ github.run_number }}
+        name: Release v${{ github.run_number }}
+        draft: false
+        prerelease: false
+        files: |
+          **/*-Signed.apk
+          **/ScoreKeeper.apk
