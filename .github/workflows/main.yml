@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write # Crucial: Gives GitHub permission to create a Release
 
     steps:
     - name: Checkout Code
@@ -15,20 +17,29 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x # Updated to .NET 9
+        dotnet-version: 9.0.x
 
     - name: Install MAUI Workloads
       run: dotnet workload install maui
 
     - name: Restore Dependencies
-      run: dotnet restore -p:TargetFramework=net9.0-android # Updated to net9.0
+      run: dotnet restore -p:TargetFramework=net9.0-android
 
     - name: Publish Android App
-      run: dotnet publish -c Release -f net9.0-android -p:TargetFramework=net9.0-android /p:AndroidPackageFormat=apk # Updated to net9.0
+      run: dotnet publish -c Release -f net9.0-android -p:TargetFramework=net9.0-android /p:AndroidPackageFormat=apk
 
-    - name: Upload APK Installer
-      uses: actions/upload-artifact@v4
+    - name: Rename APK for Clarity
+      run: |
+        ren src\bin\Release\net9.0-android\*-Signed.apk ScoreKeeper.apk
+      continue-on-error: true
+
+    - name: Create Automated Release
+      uses: softprops/action-gh-release@v2
       with:
-        name: ScoreKeeper-Installer
-        path: |
-          **/*.apk
+        tag_name: v${{ github.run_number }}
+        name: Release v${{ github.run_number }}
+        draft: false
+        prerelease: false
+        files: |
+          src/bin/Release/net9.0-android/ScoreKeeper.apk
+          src/bin/Release/net9.0-android/*-Signed.apk
