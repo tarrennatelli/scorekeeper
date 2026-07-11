@@ -2,9 +2,9 @@
 {
     public partial class MainPage : ContentPage
     {
-        private const string CurrentVersion = "1.1";
+        private const string CurrentVersion = "1.2";
         private const string VersionUrl = "https://raw.githubusercontent.com/tarrennatelli/scorekeeper/master/version.txt";
-        private const string DownloadUrl = "https://github.com/tarrennatelli/scorekeeper/actions";
+        private const string DownloadUrl = "https://github.com/tarrennatelli/scorekeeper/";
         public MainPage()
         {
             InitializeComponent();
