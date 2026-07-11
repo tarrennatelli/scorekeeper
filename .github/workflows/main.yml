@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: write # Crucial: Gives GitHub permission to create a Release
+      contents: write # Gives GitHub permission to create a Release
 
     steps:
     - name: Checkout Code
@@ -28,10 +28,15 @@ jobs:
     - name: Publish Android App
       run: dotnet publish -c Release -f net9.0-android -p:TargetFramework=net9.0-android -r android-arm64 /p:AndroidPackageFormat=apk
 
-    - name: Rename APK for Clarity
+    - name: Sign Android APK
       run: |
-        ren src\bin\Release\net9.0-android\*-Signed.apk ScoreKeeper.apk
-      continue-on-error: true
+        echo "Searching for keystore and signing the release APK..."
+        # Finds the keystore anywhere in the workspace dynamically
+        $keystorePath = Get-ChildItem -Path . -Filter "scorekeeper.keystore" -Recurse | Select-Object -First 1 -ExpandProperty FullName
+        # Finds the compiled unsigned APK dynamically
+        $apkPath = Get-ChildItem -Path . -Filter "*-Signed.apk" -Recurse | Where-Object { $_.FullName -notmatch "ScoreKeeper-Final.apk" } | Select-Object -First 1 -ExpandProperty FullName
+        
+        & "${{ env.ANDROID_HOME }}\build-tools\34.0.0\apksigner.bat" sign --ks "$keystorePath" --ks-pass pass:${{ secrets.KEYSTORE_PASSWORD }} --out ScoreKeeper-Final.apk "$apkPath"
 
     - name: Create Automated Release
       uses: softprops/action-gh-release@v2
@@ -41,5 +46,4 @@ jobs:
         draft: false
         prerelease: false
         files: |
-          **/*-Signed.apk
-          **/ScoreKeeper.apk
+          ScoreKeeper-Final.apk
