@@ -79,5 +79,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
 	</ItemGroup>
-
+	<ItemGroup Condition="$(TargetFramework.Contains('-android'))">
+		<MauiAndroidResource Include="Platforms\Android\Resources\xml\**" />
+	</ItemGroup>
 </Project>
